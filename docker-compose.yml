@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  api:
+    image: danielgtaylor/apisprout
+    volumes:
+    - ./api/openapi.yaml:/openapi.yaml
+    command:
+    - /openapi.yaml
+    - --watch
+    ports:
+    - 8080:8000

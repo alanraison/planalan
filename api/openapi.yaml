@@ -1,0 +1,15 @@
+openapi: '3.0.0'
+info:
+  title: Planalan Planning Tool API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /projects:
+    get:
+components:
+  schemas:
+    project-item:
+      title: projectItem
+      description: >
+        A project item; holds the basic properties of a project in order to plan
