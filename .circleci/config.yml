@@ -5,7 +5,7 @@ jobs:
     - image: node:lts-slim
     environment:
       ENV: CI
-    working_directory: ui/
+    working_directory: ./ui
     steps:
     - checkout
     - run:
