@@ -5,9 +5,10 @@ jobs:
     - image: node:lts-slim
     environment:
       ENV: CI
-    working_directory: ./ui
+    working_directory: ~/project/ui
     steps:
     - checkout
+      working_directory: ~/project
     - run:
         command: |
           pwd
