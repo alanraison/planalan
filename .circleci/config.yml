@@ -8,7 +8,7 @@ jobs:
     working_directory: ~/project/ui
     steps:
     - checkout
-      working_directory: ~/project
+        working_directory: ~/project
     - run:
         command: |
           pwd
