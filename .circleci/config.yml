@@ -10,6 +10,8 @@ jobs:
     - checkout
     - run:
         command: |
+          pwd
+          ls
           yarn
     - run:
         command: |
