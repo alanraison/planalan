@@ -8,5 +8,15 @@ services:
     command:
     - /openapi.yaml
     - --watch
+    - --add-server
+    - http://api:8000/api/
+    - --validate-server
+
+  ui:
+    build:
+      context: ./ui
+    volumes:
+    - .:/workspace
+    - ~/.ssh:/root/.ssh
     ports:
-    - 8080:8000
+    - 3000:3000

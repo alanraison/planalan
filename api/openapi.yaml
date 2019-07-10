@@ -3,13 +3,93 @@ info:
   title: Planalan Planning Tool API
   version: 1.0.0
 servers:
-- url: /
+- url: /api/
 paths:
-  /projects:
+  /plannedProjects:
     get:
+      summary: Get Planned Projects
+      description: >
+        Find all projects in the planning stage
+      operationId: getPlannedProjects
+      responses:
+        200:
+          description: >
+            All planned projects
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/project-plan-item'
+              examples:
+                example:
+                  summary: An example
+                  value:
+                    name: Super-Important Project
+                    owner: Gordon T. Gopher
+                    resourceRequirements:
+                    - skill: Tea Making
+                      start: 0
+                      duration: 100
+                    - skill: Business Analysis
+                      start: 10
+                      duration: 30
+                    - skill: Java Development
+                      start: 15
+                      duration: 85
+                    - skill: Javascript Development
+                      start: 20
+                      duration: 70
+                    - skill: Manual Testing
+                      start: 10
+                      duration: 90
+                    - skill: Automation Testing
+                      start: 20
+                      duration: 80
+        security:
+          planalan_auth:
+          - read:planned-projects
 components:
   schemas:
-    project-item:
-      title: projectItem
+    project-plan-item:
+      title: projectPlanItem
       description: >
-        A project item; holds the basic properties of a project in order to plan
+        A project item; holds the basic properties of a project in order to plan resources
+      type: object
+      properties:
+        name:
+          title: projectName
+          description: >
+            The project's name
+          type: string
+        owner:
+          title: owner
+          description: >
+            The owner (Project Manager) for the project
+          type: string
+        resourceRequirements:
+          title: resourceRequirements
+          description: >
+            A list of the project's resourcing needs
+          type: array
+          items:
+            $ref: '#/components/schemas/resource-requirement'
+    resource-requirement:
+      title: resourceRequirement
+      description: >
+        A requirement for resource in a project
+      type: object
+      properties:
+        skill:
+          title: skill
+          description: >
+            A skill requirement
+          type: string
+        start:
+          title: start
+          description: >
+            The offset (in days or half days) when the skill is required for the project
+          type: number
+        duration:
+          title: duration
+          description: >
+            How long this skill is required for, in days or half days.
+          type: number

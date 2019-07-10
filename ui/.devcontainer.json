@@ -1,0 +1,11 @@
+{
+  "name": "ui",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "ui",
+  "workspaceFolder": "/workspace/ui",
+  "postCreateCommand": "yarn",
+  "extensions": [
+    // "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}
