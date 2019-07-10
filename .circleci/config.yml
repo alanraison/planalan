@@ -3,17 +3,17 @@ jobs:
   test:
     docker:
       image: node:lts-slim
-      environment:
-        ENV: CI
-      working_directory: ui/
-      steps:
-      - checkout
-      - run:
-        command:
-          yarn
-      - run:
-        command:
-          yarn test
+    environment:
+      ENV: CI
+    working_directory: ui/
+    steps:
+    - checkout
+    - run:
+      command:
+        yarn
+    - run:
+      command:
+        yarn test
 workflows:
   version: 2
   test:
