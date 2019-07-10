@@ -5,13 +5,17 @@ jobs:
       image: node:lts-slim
       environment:
         ENV: CI
+      working_directory: ui/
       steps:
       - checkout
       - run:
-        working_directory: ui/
         command:
           yarn
       - run:
-        working_directory: ui/
         command:
           yarn test
+workflows:
+  version: 2
+  test:
+    jobs:
+    - test
