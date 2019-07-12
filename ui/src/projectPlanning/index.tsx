@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -7,10 +7,9 @@ import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import SearchInput from '../shared/SearchInput';
+import ProjectList from './ProjectList';
+import { PlannedProject, getPlannedProjects } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -26,8 +25,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ProjectPlanning: React.FC<{}> = ({}) => {
+const ProjectPlanning: React.FC<{}> = () => {
   const classes = useStyles();
+  const [projects, setProjects] = useState<PlannedProject[]>([]);
+
+  useEffect(() => {
+    getPlannedProjects().then(setProjects);
+  }, []);
+
   return (
     <div className={classes.root}>
       <AppBar position="absolute">
@@ -45,14 +50,7 @@ const ProjectPlanning: React.FC<{}> = ({}) => {
               <SearchInput/>
             </Card>
             <Card square>
-              <List component="nav" aria-label="List of projects">
-                <ListItem button>
-                  <ListItemText primary="The Project"/>
-                </ListItem>
-                <ListItem button>
-                  <ListItemText primary="Another project"/>
-                </ListItem>
-              </List>
+              <ProjectList projects={projects}/>
             </Card>
           </Grid>
           <Hidden xsDown>
