@@ -6,10 +6,7 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    padding: theme.spacing(1),
     display: 'flex',
   },
   input: {

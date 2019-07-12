@@ -5,17 +5,17 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper'; 
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import SearchInput from './SearchInput';
+import SearchInput from '../shared/SearchInput';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor: theme.palette.grey[200],
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Planning: React.FC<{}> = () => {
+const ProjectPlanning: React.FC<{}> = ({}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -41,14 +41,19 @@ const Planning: React.FC<{}> = () => {
         <div className={classes.appBarSpacer}/>
         <Grid container spacing={1} alignContent="center">
           <Grid item xs={12} sm={3}>
-            <Paper square>
+            <Card square>
               <SearchInput/>
+            </Card>
+            <Card square>
               <List component="nav" aria-label="List of projects">
                 <ListItem button>
                   <ListItemText primary="The Project"/>
                 </ListItem>
+                <ListItem button>
+                  <ListItemText primary="Another project"/>
+                </ListItem>
               </List>
-            </Paper>
+            </Card>
           </Grid>
           <Hidden xsDown>
             <Grid item sm={9}><Paper square>Detail</Paper></Grid>
@@ -59,4 +64,4 @@ const Planning: React.FC<{}> = () => {
   )
 }
 
-export default Planning;
+export default ProjectPlanning;
