@@ -5,10 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import SearchInput from '../shared/SearchInput';
 import ProjectList from './ProjectList';
+import Detail from './Detail';
+import EmptyDetail from './EmptyDetail';
 import { PlannedProject, getPlannedProjects } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,10 +29,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ProjectPlanning: React.FC<{}> = () => {
   const classes = useStyles();
   const [projects, setProjects] = useState<PlannedProject[]>([]);
+  const [selectedProject, selectProject] = useState<PlannedProject | null>(null);
 
   useEffect(() => {
     getPlannedProjects().then(setProjects);
   }, []);
+
+  function handleSelectProject(project: PlannedProject) {
+    selectProject(project);
+  }
 
   return (
     <div className={classes.root}>
@@ -50,11 +56,17 @@ const ProjectPlanning: React.FC<{}> = () => {
               <SearchInput/>
             </Card>
             <Card square>
-              <ProjectList projects={projects}/>
+              <ProjectList projects={projects} onSelectProject={handleSelectProject}/>
             </Card>
           </Grid>
           <Hidden xsDown>
-            <Grid item sm={9}><Paper square>Detail</Paper></Grid>
+            <Grid item sm={9}>
+              {
+                selectedProject ?
+                  <Detail project={selectedProject as PlannedProject}/>
+                : <EmptyDetail/>
+              }
+            </Grid>
           </Hidden>
         </Grid>
       </main>
