@@ -1,6 +1,6 @@
 version: '2.1'
 orbs:
-  cypress: cypress-io/cypress@1
+  # cypress: cypress-io/cypress@1
 jobs:
   test:
     docker:
@@ -20,4 +20,4 @@ workflows:
   test:
     jobs:
     - test
-    - cypress/run
+    # - cypress/run
