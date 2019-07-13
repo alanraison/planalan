@@ -12,13 +12,9 @@ jobs:
     - checkout:
         path: ~/project
     - run:
-        command: |
-          pwd
-          ls
-          yarn
+        command: yarn
     - run:
-        command: |
-          yarn test
+        command: yarn test
 workflows:
   version: 2
   test:
