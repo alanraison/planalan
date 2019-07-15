@@ -10,7 +10,7 @@ const App: React.FC = () => {
     <Router>
       <CssBaseline/>
       <Switch>
-        <Route path="/planning" render={() => <ProjectPlanning/>}/>
+        <Route path="/planning" component={ProjectPlanning}/>
         <Route path="/resources" component={Resources}/>
         <Route component={() => <Redirect to="/planning"/>}/>
       </Switch>
