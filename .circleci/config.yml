@@ -1,4 +1,6 @@
 version: '2.1'
+orbs:
+  # cypress: cypress-io/cypress@1
 jobs:
   test:
     docker:
@@ -10,15 +12,12 @@ jobs:
     - checkout:
         path: ~/project
     - run:
-        command: |
-          pwd
-          ls
-          yarn
+        command: yarn
     - run:
-        command: |
-          yarn test
+        command: yarn test
 workflows:
   version: 2
   test:
     jobs:
     - test
+    # - cypress/run

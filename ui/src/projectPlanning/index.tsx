@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import SearchInput from '../shared/SearchInput';
+import ProjectList from './ProjectList';
+import Detail from './Detail';
+import EmptyDetail from './EmptyDetail';
+import { PlannedProject, getPlannedProjects } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -26,8 +26,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ProjectPlanning: React.FC<{}> = ({}) => {
+const ProjectPlanning: React.FC<{}> = () => {
   const classes = useStyles();
+  const [projects, setProjects] = useState<PlannedProject[]>([]);
+  const [selectedProject, selectProject] = useState<PlannedProject | null>(null);
+
+  useEffect(() => {
+    getPlannedProjects().then(setProjects);
+  }, []);
+
+  function handleSelectProject(project: PlannedProject) {
+    selectProject(project);
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="absolute">
@@ -45,18 +56,17 @@ const ProjectPlanning: React.FC<{}> = ({}) => {
               <SearchInput/>
             </Card>
             <Card square>
-              <List component="nav" aria-label="List of projects">
-                <ListItem button>
-                  <ListItemText primary="The Project"/>
-                </ListItem>
-                <ListItem button>
-                  <ListItemText primary="Another project"/>
-                </ListItem>
-              </List>
+              <ProjectList projects={projects} onSelectProject={handleSelectProject}/>
             </Card>
           </Grid>
           <Hidden xsDown>
-            <Grid item sm={9}><Paper square>Detail</Paper></Grid>
+            <Grid item sm={9}>
+              {
+                selectedProject ?
+                  <Detail project={selectedProject as PlannedProject}/>
+                : <EmptyDetail/>
+              }
+            </Grid>
           </Hidden>
         </Grid>
       </main>
