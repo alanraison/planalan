@@ -66,7 +66,11 @@ const ProjectPlanning: React.FC<{match: match}> = ({
               <Route
                 path={`${match.url}/:projectId`}
                 children={({ match: childMatch }) => (
-                  <ProjectList projects={[...projects.values()]} selected={childMatch ? childMatch.params.projectId : null}/>
+                  <ProjectList
+                    projects={[...projects.values()]}
+                    selected={childMatch ? childMatch.params.projectId : null}
+                    match={match}
+                  />
                 )}/>
             </Card>
           </Grid>
