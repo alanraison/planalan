@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { PlannedProject } from '../api';
+import { Link } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import CloseIcon from '@material-ui/icons/Close';
+import { PlannedProject } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -31,7 +40,6 @@ const Detail: React.FC<{
   onChange,
 }) => {
   const classes = useStyles();
-  // const [dirtyProject, setDirtyProject] = useState(project);
 
   function handleChange(field: string, value: any) {
     onChange({
@@ -57,7 +65,52 @@ const Detail: React.FC<{
           value={project.owner}
           onChange={(e) => handleChange('owner', e.target.value)}
         />
+        <IconButton component={Link} to={'..'}>
+          <CloseIcon/>
+        </IconButton>
       </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Skill</TableCell>
+            <TableCell align="center">Start</TableCell>
+            <TableCell align="center">Duration</TableCell>
+            <TableCell/>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {
+          project.requirements.map(r => (
+            <TableRow key={r.skill}>
+              <TableCell>
+                {r.skill}
+              </TableCell>
+              <TableCell align="center">
+                <IconButton>
+                  <AddIcon/>
+                </IconButton>
+                {r.start}
+                <IconButton>
+                  <RemoveIcon/>
+                </IconButton>
+              </TableCell>
+              <TableCell align="center">
+                <IconButton>
+                  <AddIcon/>
+                </IconButton>
+                {r.duration}
+                <IconButton>
+                  <RemoveIcon/>
+                </IconButton>
+              </TableCell>
+              <TableCell>
+                  gantt
+              </TableCell>
+            </TableRow>
+          ))
+        }
+        </TableBody>
+      </Table>
     </Paper>
   )
 };
