@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Route, match } from 'react-router-dom';
+import { Switch, Route, match, Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -43,7 +43,7 @@ const ProjectPlanning: React.FC<{match: match}> = ({
   const [projects, setProjects] = useState<Map<ProjectId, PlannedProject>>(new Map());
 
   useEffect(() => {
-    getPlannedProjects().then(p => { console.log(p); return p; }).then(setProjects);
+    getPlannedProjects().then(setProjects);
   }, []);
 
   return (
@@ -99,7 +99,15 @@ const ProjectPlanning: React.FC<{match: match}> = ({
             </Grid>
           </Hidden>
         </Grid>
-        <Fab color="primary" className={classes.fab}>
+        <Fab
+          color="primary" 
+          className={classes.fab}
+          component={Link}
+          to={`${match.url}/a`}
+          onClick={() => {
+            setProjects(new Map(projects).set('a',new PlannedProject('a','New Project','',[])));
+          }}
+        >
           <AddIcon/>
         </Fab>
       </main>
