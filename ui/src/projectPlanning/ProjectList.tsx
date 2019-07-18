@@ -19,7 +19,12 @@ const ProjectList: React.FC<{
       {
         projects.map(p => (
           <ListItem key={p.id} selected={selected === p.id} button component={Link} to={`${match.url}/${p.id}`}>
-            <ListItemText primary={p.name} secondary={p.owner}/>
+            <ListItemText
+              primary={p.name}
+              primaryTypographyProps={{noWrap: true}}
+              secondary={p.owner}
+              secondaryTypographyProps={{noWrap: true}}
+            />
           </ListItem>
         ))
       }

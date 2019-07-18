@@ -82,7 +82,14 @@ const ProjectPlanning: React.FC<{match: match}> = ({
                     <Route
                       key={p.id}
                       path={`${match.url}/${p.id}`}
-                      render={() => <Detail project={p}/>}
+                      exact
+                      render={
+                        () => <Detail project={p} onChange={
+                          (p_) => {
+                            setProjects(new Map(projects.set(p_.id, p_))); 
+                          }
+                        }/>
+                      }
                     />
                   ))
                 }
