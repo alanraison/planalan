@@ -50,6 +50,9 @@ paths:
                       - skill: Automation Testing
                         start: 20
                         duration: 80
+                    - name: Something less important
+                      owner: Theresa May
+                      resourceRequirements: []
         security:
           planalan_auth:
           - read:planned-projects
