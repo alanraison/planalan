@@ -11,8 +11,18 @@ jobs:
     steps:
     - checkout:
         path: ~/project
+    - restore_cache:
+        keys:
+        - yarn-node-modules-{{ arch }}-{{ checksum "yarn.lock" }}
+        - yarn-node-modules-{{ arch }}
+        - yarn-node-modules
     - run:
         command: yarn
+    - save_cache:
+        key: yarn-node-modules-{{ arch }}-{{ checksum "yarn.lock" }}
+        paths:
+        - node_modules/
+        - ~/.cache/yarn
     - run:
         command: yarn test
 workflows:
