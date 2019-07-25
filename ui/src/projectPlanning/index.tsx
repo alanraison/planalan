@@ -1,43 +1,53 @@
 import React, { useEffect, useState } from 'react';
+import { Switch, Route, match } from 'react-router-dom';
+import uuid from 'uuid/v4';
 import AppBar from '@material-ui/core/AppBar';
+import Fab from '@material-ui/core/Fab';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import AddIcon from '@material-ui/icons/Add';
 import SearchInput from '../shared/SearchInput';
 import ProjectList from './ProjectList';
 import Detail from './Detail';
 import EmptyDetail from './EmptyDetail';
-import { PlannedProject, getPlannedProjects } from '../api';
+import { PlannedProject, getPlannedProjects, ProjectId } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     backgroundColor: theme.palette.grey[200],
+    height: '100vh',
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
+    flex: 1,
     margin: theme.spacing(1),
-    height: '100vh',
     overflow: 'auto',
   },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  }
 }));
 
-const ProjectPlanning: React.FC<{}> = () => {
+const NotFound = () => <div>Not Found</div>;
+
+const ProjectPlanning: React.FC<{
+  match: match,
+}> = ({
+  match,
+}) => {
   const classes = useStyles();
-  const [projects, setProjects] = useState<PlannedProject[]>([]);
-  const [selectedProject, selectProject] = useState<PlannedProject | null>(null);
+  const [projects, setProjects] = useState<Map<ProjectId, PlannedProject>>(new Map());
 
   useEffect(() => {
     getPlannedProjects().then(setProjects);
   }, []);
-
-  function handleSelectProject(project: PlannedProject) {
-    selectProject(project);
-  }
 
   return (
     <div className={classes.root}>
@@ -56,19 +66,62 @@ const ProjectPlanning: React.FC<{}> = () => {
               <SearchInput/>
             </Card>
             <Card square>
-              <ProjectList projects={projects} onSelectProject={handleSelectProject}/>
+              <Route
+                path={`${match.url}/:projectId`}
+                children={({ match: childMatch, history }) => (
+                  <ProjectList
+                    projects={[...projects.values()]}
+                    selected={childMatch ? childMatch.params.projectId : null}
+                    match={match}
+                    history={history}
+                  />
+                )}/>
             </Card>
           </Grid>
           <Hidden xsDown>
             <Grid item sm={9}>
-              {
-                selectedProject ?
-                  <Detail project={selectedProject as PlannedProject}/>
-                : <EmptyDetail/>
-              }
+              <Switch>
+                {
+                  [...projects.values()].map(p => (
+                    <Route
+                      key={p.id}
+                      path={`${match.url}/${p.id}`}
+                      exact
+                      render={
+                        () => (
+                          <Detail project={p} onChange={
+                            (p_) => {
+                              setProjects(new Map(projects.set(p_.id, p_))); 
+                            }
+                          }/>
+                        )
+                      }
+                    />
+                  ))
+                }
+                <Route path={match.url} exact component={EmptyDetail}/>
+                <Route component={NotFound}/>
+              </Switch>
             </Grid>
           </Hidden>
         </Grid>
+        <Route
+          children={({
+            history,
+          }) => (
+            <Fab
+              color="primary" 
+              className={classes.fab}
+              onClick={() => {
+                const newId = uuid();
+                setProjects(new Map(projects).set(newId,new PlannedProject(newId,'New Project','',[])));
+                history.push(`${match.url}/${newId}`);
+              }}
+            >
+              <AddIcon/>
+            </Fab>
+          )}
+        />
       </main>
     </div>
   )
