@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import CloseIcon from '@material-ui/icons/Close';
 import { PlannedProject } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Detail: React.FC<{
   project: PlannedProject,
   onChange: (project: PlannedProject) => void,
+  // ref: React.Ref<HTMLElement>,
 }> = ({
   project,
   onChange,
@@ -65,9 +64,6 @@ const Detail: React.FC<{
           value={project.owner}
           onChange={(e) => handleChange('owner', e.target.value)}
         />
-        <IconButton component={Link} to={'..'}>
-          <CloseIcon/>
-        </IconButton>
       </div>
       <Table>
         <TableHead>

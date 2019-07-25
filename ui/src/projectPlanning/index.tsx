@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Route, match, Link } from 'react-router-dom';
+import { Switch, Route, match } from 'react-router-dom';
+import uuid from 'uuid/v4';
 import AppBar from '@material-ui/core/AppBar';
+import Fab from '@material-ui/core/Fab';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import AddIcon from '@material-ui/icons/Add';
 import SearchInput from '../shared/SearchInput';
 import ProjectList from './ProjectList';
 import Detail from './Detail';
 import EmptyDetail from './EmptyDetail';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import { PlannedProject, getPlannedProjects, ProjectId } from '../api';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -36,8 +37,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const NotFound = () => <div>Not Found</div>;
 
-const ProjectPlanning: React.FC<{match: match}> = ({
-  match
+const ProjectPlanning: React.FC<{
+  match: match,
+}> = ({
+  match,
 }) => {
   const classes = useStyles();
   const [projects, setProjects] = useState<Map<ProjectId, PlannedProject>>(new Map());
@@ -65,11 +68,12 @@ const ProjectPlanning: React.FC<{match: match}> = ({
             <Card square>
               <Route
                 path={`${match.url}/:projectId`}
-                children={({ match: childMatch }) => (
+                children={({ match: childMatch, history }) => (
                   <ProjectList
                     projects={[...projects.values()]}
                     selected={childMatch ? childMatch.params.projectId : null}
                     match={match}
+                    history={history}
                   />
                 )}/>
             </Card>
@@ -84,11 +88,13 @@ const ProjectPlanning: React.FC<{match: match}> = ({
                       path={`${match.url}/${p.id}`}
                       exact
                       render={
-                        () => <Detail project={p} onChange={
-                          (p_) => {
-                            setProjects(new Map(projects.set(p_.id, p_))); 
-                          }
-                        }/>
+                        () => (
+                          <Detail project={p} onChange={
+                            (p_) => {
+                              setProjects(new Map(projects.set(p_.id, p_))); 
+                            }
+                          }/>
+                        )
                       }
                     />
                   ))
@@ -99,17 +105,23 @@ const ProjectPlanning: React.FC<{match: match}> = ({
             </Grid>
           </Hidden>
         </Grid>
-        <Fab
-          color="primary" 
-          className={classes.fab}
-          component={Link}
-          to={`${match.url}/a`}
-          onClick={() => {
-            setProjects(new Map(projects).set('a',new PlannedProject('a','New Project','',[])));
-          }}
-        >
-          <AddIcon/>
-        </Fab>
+        <Route
+          children={({
+            history,
+          }) => (
+            <Fab
+              color="primary" 
+              className={classes.fab}
+              onClick={() => {
+                const newId = uuid();
+                setProjects(new Map(projects).set(newId,new PlannedProject(newId,'New Project','',[])));
+                history.push(`${match.url}/${newId}`);
+              }}
+            >
+              <AddIcon/>
+            </Fab>
+          )}
+        />
       </main>
     </div>
   )
