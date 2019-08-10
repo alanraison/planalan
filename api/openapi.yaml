@@ -53,9 +53,9 @@ paths:
                     - name: Something less important
                       owner: Theresa May
                       resourceRequirements: []
-      security:
-        planalan_auth:
-        - read:planned-projects
+    security:
+      planalan_auth:
+      - read:planned-projects
 components:
   schemas:
     ProjectPlanItem:
