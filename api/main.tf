@@ -10,11 +10,3 @@ terraform {
   backend "s3" {}
 }
 
-resource "aws_api_gateway_rest_api" "planning_api" {
-  name = "planalan-api"
-  body = file("${path.module}/openapi.yaml")
-
-  endpoint_configuration {
-    types = ["REGIONAL"]
-  }
-}
