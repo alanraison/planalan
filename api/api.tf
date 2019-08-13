@@ -43,8 +43,9 @@ resource "aws_api_gateway_integration_response" "mock" {
   resource_id = "${data.aws_api_gateway_resource.planned_projects.id}"
   http_method = "GET"
   status_code = 200
+  selection_pattern = "-"
 
   response_templates {
-    "application/json" = file("${path.module}/mockResponses/plannedProjects.json")
+    "application/json" = "${file("${path.module}/mockResponses/plannedProjects.json")}"
   }
 }
