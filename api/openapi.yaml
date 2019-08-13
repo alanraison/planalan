@@ -80,8 +80,8 @@ components:
             A list of the project's resourcing needs
           type: array
           items:
-            $ref: '#/components/schemas/resourceRequirement'
-    resourceRequirement:
+            $ref: '#/components/schemas/ResourceRequirement'
+    ResourceRequirement:
       title: resourceRequirement
       description: >
         A requirement for resource in a project
