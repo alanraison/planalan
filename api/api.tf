@@ -45,7 +45,7 @@ resource "aws_api_gateway_integration_response" "mock" {
   status_code = 200
   selection_pattern = "-"
 
-  response_templates {
+  response_templates = {
     "application/json" = "${file("${path.module}/mockResponses/plannedProjects.json")}"
   }
 }
