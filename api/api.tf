@@ -46,6 +46,6 @@ resource "aws_api_gateway_integration_response" "mock" {
   selection_pattern = "-"
 
   response_templates = {
-    "application/json" = "${file("${path.module}/mockResponses/plannedProjects.json")}"
+    "application/json" = file("${path.module}/mockResponses/plannedProjects.json")
   }
 }
