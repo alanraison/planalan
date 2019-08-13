@@ -42,7 +42,7 @@ resource "aws_api_gateway_integration_response" "mock" {
   rest_api_id = "${aws_api_gateway_rest_api.planning_api.id}"
   resource_id = "${data.aws_api_gateway_resource.planned_projects.id}"
   http_method = "GET"
-  status_code = 200
+  status_code = "200"
   selection_pattern = "-"
 
   response_templates = {
