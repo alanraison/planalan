@@ -54,8 +54,8 @@ paths:
                       owner: Theresa May
                       resourceRequirements: []
       security:
-        planalan_auth:
-        - read:planned-projects
+        - planalan_auth:
+          - read:planned-projects
       x-amazon-apigateway-integration:
         type: mock
         responses:
@@ -63,7 +63,8 @@ paths:
             statusCode: 200
             requestTemplates:
               application/json: |
-                {"statusCode":"200"}
+                {"statusCode":200}
+            passthroughBehavior: "when_no_match"
             responseTemplates:
               application/json: |
                 {
