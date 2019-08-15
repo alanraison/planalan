@@ -61,6 +61,9 @@ paths:
         responses:
           default:
             statusCode: 200
+            requestTemplates:
+              application/json: |
+                {"statusCode":"200"}
             responseTemplates:
               application/json: |
                 {
