@@ -57,6 +57,7 @@ paths:
         planalan_auth:
         - read:planned-projects
       x-amazon-apigateway-integration:
+        type: mock
         responses:
           default:
             statusCode: 200
