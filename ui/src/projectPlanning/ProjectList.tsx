@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { History } from 'history';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -32,7 +32,7 @@ const ProjectList: React.FC<{
   // ref,
 }) => {
   const classes = useStyles();
-  const ref = useRef();
+  // const ref = useRef();
 
   function handleClick(p: PlannedProject) {
     if (selected === p.id) {

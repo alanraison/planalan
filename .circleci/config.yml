@@ -49,7 +49,7 @@ jobs:
         - dist
   validate_ui_terraform:
     docker:
-    - image: terraform:0.12
+    - image: hashicorp/terraform:0.12.6
     working_directory: ~/project/ui/terraform
     steps:
     - checkout:
@@ -60,7 +60,7 @@ jobs:
           terraform validate
   validate_api:
     docker:
-    - image: terraform:0.12
+    - image: hashicorp/terraform:0.12.6
     working_directory: ~/project/api
     steps:
     - checkout:
