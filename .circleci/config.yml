@@ -25,9 +25,58 @@ jobs:
         - ~/.cache/yarn
     - run:
         command: yarn test
+  build_dist:
+    docker:
+    - image: node:lts-slim
+    environment:
+      ENV: CI
+    working_directory: ~/project/ui
+    steps:
+    - checkout:
+        path: ~/project
+    - restore_cache:
+        keys:
+        - yarn-node-modules-{{ arch }}-{{ checksum "yarn.lock" }}
+        - yarn-node-modules-{{ arch }}
+        - yarn-node-modules
+    - run:
+        command: yarn
+    - run:
+        command: yarn build
+    - persist_to_workspace:
+      root: .
+      paths:
+      - dist
+  validate_ui_terraform:
+    docker:
+    - image: terraform:0.12
+    working_directory: ~/project/ui/terraform
+    steps:
+    - checkout:
+        path: ~/project
+    - run:
+        command: |
+          terraform init -backend=false
+          terraform validate
+  validate_api:
+    docker:
+    - image: terraform:0.12
+    working_directory: ~/project/api
+    steps:
+    - checkout:
+        path: ~/project
+    - run:
+        command: |
+          terraform init -backend=false
+          terraform validate
 workflows:
   version: 2
   test:
     jobs:
     - test
     # - cypress/run
+    - validate_ui_terraform
+    - validate_api
+    - build_dist:
+        requires:
+        - test
