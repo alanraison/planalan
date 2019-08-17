@@ -23,7 +23,7 @@ paths:
                   projects:
                     type: array
                     items:
-                      $ref: '#/components/schemas/project-plan-item'
+                      $ref: '#/components/schemas/ProjectPlanItem'
               examples:
                 example:
                   summary: An example
@@ -53,13 +53,71 @@ paths:
                     - name: Something less important
                       owner: Theresa May
                       resourceRequirements: []
-        security:
-          planalan_auth:
+      security:
+        - planalan_auth:
           - read:planned-projects
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {"statusCode":200}
+        passthroughBehavior: "when_no_match"
+        responses:
+          default:
+            statusCode: 200
+            responseTemplates:
+              application/json: |
+                {
+                  "projects": [
+                    {
+                      "name": "Super-Important Project",
+                      "owner": "Gordon T. Gopher",
+                      "resourceRequirements": [
+                        {
+                          "skill": "Tea Making",
+                          "start": 0,
+                          "duration": 100
+                        },
+                        {
+                          "skill": "Business Analysis",
+                          "start": 10,
+                          "duration": 30
+                        },
+                        {
+                          "skill": "Java Development",
+                          "start": 15,
+                          "duration": 85
+                        },
+                        {
+                          "skill": "Javascript Development",
+                          "start": 20,
+                          "duration": 70
+                        },
+                        {
+                          "skill": "Manual Testing",
+                          "start": 10,
+                          "duration": 90
+                        },
+                        {
+                          "skill": "Automation Testing",
+                          "start": 20,
+                          "duration": 80
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Something less important",
+                      "owner": "Theresa May",
+                      "resourceRequirements": [
+
+                      ]
+                    }
+                  ]
+                }
 components:
   schemas:
-    project-plan-item:
-      title: projectPlanItem
+    ProjectPlanItem:
+      title: ProjectPlanItem
       description: >
         A project item; holds the basic properties of a project in order to plan resources
       type: object
@@ -80,8 +138,8 @@ components:
             A list of the project's resourcing needs
           type: array
           items:
-            $ref: '#/components/schemas/resource-requirement'
-    resource-requirement:
+            $ref: '#/components/schemas/ResourceRequirement'
+    ResourceRequirement:
       title: resourceRequirement
       description: >
         A requirement for resource in a project
