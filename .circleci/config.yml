@@ -44,9 +44,9 @@ jobs:
     - run:
         command: yarn build
     - persist_to_workspace:
-      root: .
-      paths:
-      - dist
+        root: .
+        paths:
+        - dist
   validate_ui_terraform:
     docker:
     - image: terraform:0.12
