@@ -1713,10 +1713,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@16.8.24":
-  version "16.8.24"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.24.tgz#8d1ea1fcbfa214220da3d3c04e506f1077b0deac"
-  integrity sha512-VpFHUoD37YNY2+lr/+c7qL/tZsIU/bKuskUF3tmGUArbxIcQdb5j3zvo4cuuzu2A6UaVmVn7sJ4PgWYNFEBGzg==
+"@types/react@16.9.28":
+  version "16.9.28"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.28.tgz#b854e1e3800bd3b33797958cadfe4ed0091b5aec"
+  integrity sha512-cxhY8le72wp81zuL1NvsAy5AWM3Ec7fO8Kh4n6xHQyiE6AhJdll5frocjW88jOBFDPpw7szuVMqlABxZ+zd/fA==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
